@@ -28,10 +28,6 @@ The development of this dashboard used the following tools and data sources:
 
 - **Visualization and Dashboard Interface**: Constructed with Power BI for its dynamic data visualization capabilities, enhancing the interactive experience for users.
 
-# Stock Market Dashboard Project Report
-
-...
-
 ## Dataset Description
 
 The datasets for this project are multi-faceted, encompassing both financial data and sentiment data:
