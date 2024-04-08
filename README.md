@@ -31,18 +31,6 @@ The modern stock market demands a sophisticated analysis tool that considers bot
 ## Dataset Description
 The financial dataset is composed of detailed metrics for the CSI 300 index stocks, courtesy of the Wind API. In parallel, the sentiment dataset is built by extracting and analyzing public discussions and financial news pertaining to these stocks and the top 100 funds in China. The sentiment data provides insights into the subjective outlook of individual investors and the objective influence of the news media on market trends.
 
-
-## System Architecture
-(To be expanded upon further discussion and technical specifics provided.)
-
-## Implementation
-(To be expanded upon further discussion and technical specifics provided.)
-
-
-## Dataset Description
-- Price data: Extracted from Wind API
-- Sentiment data: Collected through web scraping and analyzed with a large language model
-
 ## System Architecture
 - Flow diagram of the system architecture
 - Explanation of the components
