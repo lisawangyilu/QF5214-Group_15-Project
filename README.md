@@ -6,27 +6,31 @@ This report presents the development process and operational details of a stock 
 
 ## Introduction
 
-The purpose of this dashboard is to amalgamate quantitative and qualitative data streams to present a unified analysis platform for investors. By correlating financial data with public sentiment, the dashboard aims to identify potential market movements and offer insights beyond traditional financial metrics.
+The purpose of the dashboard is to provide a nuanced view of the stock market by integrating quantitative financial data with qualitative sentiment analysis. This dual-faceted approach allows for a more informed analysis, as it captures the subjective sentiments of individual investors and the objective tone of financial news, both of which can significantly influence market behavior.
 
-The tools and databases utilized for this project are as follows:
+The development of this dashboard harnesses the following tools and data sources:
 
-- **Quantitative Financial Data Extraction**: The price and volume data are primarily sourced from the Wind API, which provides a comprehensive array of financial data points.
+- **Quantitative Financial Data**: Sourced from the Wind API, which offers extensive financial data for market analysis.
 
-- **Sentiment Analysis**: For the qualitative aspect, a Python-based web scraping program is employed to harvest commentary from two prominent investment forums, Guba and Snowball. Due to computational resource constraints, the focus is limited to the constituent stocks of the CSI 300 index.
+- **Qualitative Sentiment Data**:
+  - **Investor Sentiment**: Gained through Python-based web scraping of investor comments from the Guba and Snowball forums, focusing on the CSI 300 index stocks.
+  - **Fund Sentiment**: Captures broader market sentiment by including commentary from the top 100 funds in China, reflecting macro investor sentiment.
+  - **News Sentiment**: Collected from financial news publications to incorporate objective sentiment influences on the market.
 
-- **Language Model for Sentiment Judgement**: Baidu's LLM (Large Language Model) is used for sentiment analysis, providing the necessary API for sentiment judgement. Despite the API's slower performance, it was selected for its no-cost advantage.
+- **Sentiment Analysis Model**: Utilizes Baidu's Large Language Model (LLM) API for sentiment judgement, chosen for its accessibility and cost-effectiveness despite slower processing times.
 
-- **Data Processing (ETL)**: Python is utilized for the Extract, Transform, Load (ETL) process, ensuring that the data is adequately prepared for analysis.
+- **Data Processing and ETL**: Carried out with Python to ensure efficient data extraction, transformation, and loading into the system.
 
-- **Database Management**: The project leverages cloud-based SQL databases, allowing for efficient data storage, retrieval, and collaborative work among the team members.
+- **Database and Cloud Integration**: Managed via cloud-based SQL databases to facilitate data handling and collaboration.
 
-- **Visualization Dashboard**: Power BI is the chosen tool for developing the final dashboard due to its robust data visualization capabilities and interactive user interface.
+- **Visualization and Dashboard Interface**: Constructed with Power BI for its dynamic data visualization capabilities, enhancing the interactive experience for users.
 
 ## Problem Statement
-In the fast-paced world of stock trading, investors require real-time data that not only reflects the market trends in terms of prices and volumes but also captures the market sentiment, which often precedes market movements. The dashboard addresses this need by integrating financial data with sentiment analysis, offering a comprehensive view that supports strategic investment decisions.
+The modern stock market demands a sophisticated analysis tool that considers both the numerical trends and the psychological climate of the investing community. This dashboard is designed to meet that demand by merging real-time financial data with sentiment analysis, providing a comprehensive tool that anticipates market dynamics and informs investment strategies.
 
 ## Dataset Description
-The financial dataset comprises key metrics of the CSI 300 index stocks, derived from the Wind API. For sentiment analysis, public discussions related to these stocks are extracted from Guba and Snowball forums, which are then processed using Baidu's LLM to gauge the market sentiment.
+The financial dataset is composed of detailed metrics for the CSI 300 index stocks, courtesy of the Wind API. In parallel, the sentiment dataset is built by extracting and analyzing public discussions and financial news pertaining to these stocks and the top 100 funds in China. The sentiment data provides insights into the subjective outlook of individual investors and the objective influence of the news media on market trends.
+
 
 ## System Architecture
 (To be expanded upon further discussion and technical specifics provided.)
