@@ -1,18 +1,18 @@
 # QF5214-Group_15-Project
 # Stock Market Dashboard Project Report
 
-## Executive Summary
+## Summary
 This report presents the development process and operational details of a stock market dashboard designed to combine quantitative financial data with qualitative sentiment analysis, thereby providing investors with a holistic view of market conditions. The dashboard serves as a tool for investors to make informed decisions by examining both numerical market data and the prevailing public sentiment towards the top stocks in the market.
 
 ## Introduction
 
-The purpose of the dashboard is to provide a nuanced view of the stock market by integrating quantitative financial data with qualitative sentiment analysis. This dual-faceted approach allows for a more informed analysis, as it captures the subjective sentiments of individual investors and the objective tone of financial news, both of which can significantly influence market behavior.
+The purpose of the dashboard is to provide a nuanced view of the stock market by integrating quantitative financial data with sentiment analysis. This dual-faceted approach allows for a more informed analysis, as it captures the subjective sentiments of individual investors and the objective tone of financial news, both of which can significantly influence market behavior.
 
-The development of this dashboard harnesses the following tools and data sources:
+The development of this dashboard used the following tools and data sources:
 
 - **Quantitative Financial Data**: Sourced from the Wind API, which offers extensive financial data for market analysis.
 
-- **Qualitative Sentiment Data**:
+- **Sentiment Data**:
   - **Investor Sentiment**: Gained through Python-based web scraping of investor comments from the Guba and Snowball forums, focusing on the CSI 300 index stocks.
   - **Fund Sentiment**: Captures broader market sentiment by including commentary from the top 100 funds in China from Snowball forums, reflecting macro investor sentiment.
   - **News Sentiment**: Collected from Guba financial news publications to incorporate objective sentiment influences on the market.
