@@ -28,12 +28,40 @@ The development of this dashboard used the following tools and data sources:
 
 - **Visualization and Dashboard Interface**: Constructed with Power BI for its dynamic data visualization capabilities, enhancing the interactive experience for users.
 
+# Stock Market Dashboard Project Report
+
+...
+
 ## Dataset Description
-The financial dataset is composed of detailed metrics for the CSI 300 index stocks, courtesy of the Wind API. In parallel, the sentiment dataset is built by extracting and analyzing public discussions and financial news pertaining to these stocks and the top 100 funds in China. The sentiment data provides insights into the subjective outlook of individual investors and the objective influence of the news media on market trends.
+
+The datasets for this project are multi-faceted, encompassing both financial data and sentiment data:
+
+- **Financial Data**: This includes daily stock prices, volumes, and holder information from the Wind API. Metrics such as returns are calculated and form the atomic dataset for quantitative analysis.
+  
+- **Sentiment Data**: Extracted using Python web scrapers, this includes investor comments from Guba and Snowball, and news content related to stocks and funds. The sentiment is analyzed for positive or negative emotions using Baidu's LLM.
+
+- **Metrics Definition**: Metrics are defined by a combination of time periods (e.g., last 1 day, last 7 days), entities (stocks, funds), and data types (return, comment, emotion). Derived metrics are created based on these definitions, such as 'last 7 days stock positive number comment' indicating the count of positive comments over the past week.
 
 ## System Architecture
-- Flow diagram of the system architecture
-- Explanation of the components
+
+The system architecture is divided into several layers, each with a specific role in the processing and storage of data:
+
+- **Source Data**: This is the initial data ingestion layer where financial data is sourced from the Wind API and sentiment data is gathered from online forums and news sites through web crawlers.
+
+- **Operational Data Store (ODS)**: The raw data is stored here immediately after extraction. It includes tables for stock information, stock price, stock holder data, and various types of comments and news related to stocks and funds.
+
+- **Data Warehouse (DWD/DIM)**: After the ETL processes, data is transformed into a dimensional model. This includes detailed dimension tables like `dim_stock_info` and `dim_date_info` and fact tables such as `dwd_market_price_di` for market prices and `dwd_stock_sentiment_di` for stock sentiment.
+
+- **Data Warehouse Service (DWS)**: This layer contains transformed and aggregated data, structured based on business requirements for querying and analysis. It includes tables like `dws_stock_price_performance_1d` and `dws_stock_sentiment_analysz_1d`.
+
+- **Analytical Data Store (ADS)**: The ADS will store customized metric data for services and displays on the dashboard. (To be designed and detailed.)
+
+- **Analysis & Presentation**: The final layer is where the processed and stored data is analyzed and presented in a graphical user interface, such as the Power BI dashboard.
+
+...
+
+(Additional sections to continue after this.)
+
 
 ## Implementation
 - Code snippets and explanations of key functions
