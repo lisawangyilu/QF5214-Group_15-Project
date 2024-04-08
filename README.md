@@ -4,6 +4,9 @@
 ## Abstract
 This report presents the development process and operational details of a stock market dashboard designed to combine quantitative financial data with qualitative sentiment analysis, thereby providing investors with a holistic view of market conditions. The dashboard serves as a tool for investors to make informed decisions by examining both numerical market data and the prevailing public sentiment towards the top stocks in the market.
 
+## Problem Statement
+The modern stock market demands a sophisticated analysis tool that considers both the numerical trends and the psychological climate of the investing community. This dashboard is designed to meet that demand by merging real-time financial data with sentiment analysis, providing a comprehensive tool that anticipates market dynamics and informs investment strategies.
+
 ## Introduction
 
 The purpose of the dashboard is to provide a nuanced view of the stock market by integrating quantitative financial data with sentiment analysis. This dual-faceted approach allows for a more informed analysis, as it captures the subjective sentiments of individual investors and the objective tone of financial news, both of which can significantly influence market behavior.
@@ -24,9 +27,6 @@ The development of this dashboard used the following tools and data sources:
 - **Database and Cloud Integration**: Managed via cloud-based SQL databases to facilitate data handling and collaboration.
 
 - **Visualization and Dashboard Interface**: Constructed with Power BI for its dynamic data visualization capabilities, enhancing the interactive experience for users.
-
-## Problem Statement
-The modern stock market demands a sophisticated analysis tool that considers both the numerical trends and the psychological climate of the investing community. This dashboard is designed to meet that demand by merging real-time financial data with sentiment analysis, providing a comprehensive tool that anticipates market dynamics and informs investment strategies.
 
 ## Dataset Description
 The financial dataset is composed of detailed metrics for the CSI 300 index stocks, courtesy of the Wind API. In parallel, the sentiment dataset is built by extracting and analyzing public discussions and financial news pertaining to these stocks and the top 100 funds in China. The sentiment data provides insights into the subjective outlook of individual investors and the objective influence of the news media on market trends.
