@@ -1,7 +1,7 @@
 # QF5214-Group_15-Project
 # Stock Market Dashboard Project Report
 
-## Summary
+## abstract
 This report presents the development process and operational details of a stock market dashboard designed to combine quantitative financial data with qualitative sentiment analysis, thereby providing investors with a holistic view of market conditions. The dashboard serves as a tool for investors to make informed decisions by examining both numerical market data and the prevailing public sentiment towards the top stocks in the market.
 
 ## Introduction
