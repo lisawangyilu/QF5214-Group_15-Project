@@ -38,26 +38,46 @@ The datasets for this project are multi-faceted, encompassing both financial dat
 
 - **Metrics Definition**: Metrics are defined by a combination of time periods (e.g., last 1 day, last 7 days), entities (stocks, funds), and data types (return, comment, emotion). Derived metrics are created based on these definitions, such as 'last 7 days stock positive number comment' indicating the count of positive comments over the past week.
 
-## System Architecture
+## Data Architecture and Data Pipeline
 
-The system architecture is divided into several layers, each with a specific role in the processing and storage of data:
+The stock market dashboard relies on a robust data architecture and pipeline designed for efficient data flow from source to presentation. The architecture is structured into several key layers, each serving a pivotal role in the processing and analysis of data.
 
-- **Source Data**: This is the initial data ingestion layer where financial data is sourced from the Wind API and sentiment data is gathered from online forums and news sites through web crawlers.
+### Data Sources
+The foundation of our dashboard is built upon data acquired from diverse sources:
+- **Wind API**: Provides a wealth of financial data points, including stock information and trading activities.
+- **Web Crawlers**: These are utilized to gather sentiment data from various financial websites, capturing the mood and opinions of the market participants.
 
-- **Operational Data Store (ODS)**: The raw data is stored here immediately after extraction. It includes tables for stock information, stock price, stock holder data, and various types of comments and news related to stocks and funds.
+### ODS
+This layer serves as the staging area for raw data:
+- It contains tables for the initial storage of stock information , stock market data and sentiment data (`ods_comment_ef_stock`, `ods_comment_sb_stock`, `ods_news_ef_stock`, `ods_comment_ef_fund`).
 
-- **Data Warehouse (DWD/DIM)**: After the ETL processes, data is transformed into a dimensional model. This includes detailed dimension tables like `dim_stock_info` and `dim_date_info` and fact tables such as `dwd_market_price_di` for market prices and `dwd_stock_sentiment_di` for stock sentiment.
 
-- **Data Warehouse Service (DWS)**: This layer contains transformed and aggregated data, structured based on business requirements for querying and analysis. It includes tables like `dws_stock_price_performance_1d` and `dws_stock_sentiment_analysz_1d`.
+### DWD and DIM
+After the data is collected, it goes through an ETL process and is loaded into our Data Warehouse, which has two components:
+- **DWD**: Stores the detailed, atomic-level data.
+  - **Price and Volume Domain**: Here, we maintain the granularity at the daily level for each stock. The `dwd_market_price_di` fact table stores this daily price and volume information, providing a detailed view of market activities.
+  - **Sentiment Domain**: This domain differentiates between stocks and funds to provide a focused view of market sentiment. 
+    - Fact tables for sentiment are dedicated to stock sentiment (`dwd_stock_sentiment_di`) and fund sentiment (`dwd_fund_sentiment_di`), where each record corresponds to sentiment data for individual stocks and funds, respectively.
+    - Sentiment cleansing and emotion tagging are critical processes completed in this layer. We standardize and clean the sentiment data from various sources before applying Baidu's LLM for emotion analysis, resulting in sentiment tags that classify data as positive, negative, or neutral. This enrichment allows for sophisticated sentiment-based insights into market trends.
 
-- **Analytical Data Store (ADS)**: The ADS will store customized metric data for services and displays on the dashboard. (To be designed and detailed.)
+- **DIM**: Includes dimension tables such as `dim_stock_info` and `dim_date_info`, which are used to add context to the facts through attributes like dates, stock indices, and industry sectors.
 
-- **Analysis & Presentation**: The final layer is where the processed and stored data is analyzed and presented in a graphical user interface, such as the Power BI dashboard.
+### DWS
+This layer facilitates business intelligence and analysis:
+- It includes tables that have been specifically designed based on business requirements, such as `dws_stock_price_performance_1d` for daily stock performance and `dws_stock_sentiment_analysz_1d` for sentiment analysis.
 
-...
 
-(Additional sections to continue after this.)
+### ADS
+The ADS is where the curated data for final presentation is stored:
+- This includes tables like `ads_stock_ind_return_comment_1d` and `ads_stock_ind_comment_timent_share_1d`. These are constructed to feed customized metrics directly into the dashboard.
 
+### Data Pipeline
+The process through which data is transformed from raw form into actionable insights involves several stages:
+1. **Extraction**: Initially, data is extracted from the Wind API and web sources through our crawlers.
+2. **Transformation**: The raw data is then transformed, where it is cleaned, normalized, and enriched to fit into our dwd.
+3. **Loading**: The transformed data is subsequently loaded into the respective DWD and DIM tables for detailed analysis and context.
+4. **Processing**: Data in DWS undergoes further aggregation and analysis to construct business-centric views.
+5. **Presentation**: Finally, the data is presented through the dashboard, which provides a visual and interactive means for users to explore market insights.
 
 ## Implementation
 - Code snippets and explanations of key functions
