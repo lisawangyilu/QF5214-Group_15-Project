@@ -9,7 +9,7 @@ After the Chinese stock market's steep decline in February and March, investors 
 
 ## Introduction
 
-The purpose of the dashboard is to provide a nuanced view of the stock market by integrating quantitative financial data with sentiment analysis. This dual-faceted approach allows for a more informed analysis, as it captures the subjective sentiments of individual investors and the objective tone of financial news, both of which can significantly influence market behavior.
+The purpose of the dashboard is to provide a nuanced view of the stock market by integrating quantitative financial data with sentiment analysis. 
 
 The development of this dashboard used the following tools and data sources:
 
@@ -37,7 +37,7 @@ The datasets for this project are multi-faceted, encompassing both financial dat
   
 - **Sentiment Data**: Extracted using Python web scrapers, this includes investor comments from Guba and Snowball, and news content related to stocks and funds. The sentiment is analyzed for positive or negative emotions using Baidu's LLM.
 
-- **Metrics Definition**: Metrics are defined by a combination of time periods (e.g., last 1 day, last 7 days), entities (stocks, funds), and data types (daily return, comment, emotion). Derived metrics are created based on these definitions, such as 'last 7 days stock positive number comment' indicating the count of positive comments over the past week.
+- **Metrics Definition**: Metrics are defined by a combination of time periods (e.g., last 1 day), entities (stocks, funds), and data types (daily return, comment). Derived metrics are created based on these definitions, such as 'last_7_days_stock_positive_number_comment' indicating the count of positive comments over the past week.
 ![metrics](images/metrics.jpg)
 
 ## Data Architecture and Data Pipeline
@@ -57,7 +57,7 @@ This layer serves as the staging area for raw data:
 
 ### DWD and DIM
 After the data is collected, it goes through an ETL process and is loaded into our Data Warehouse, which has two components:
-- **DWD**: Stores the detailed, atomic-level data.
+- **DWD**: Stores the detailed, atomic-level data. Integrates the `dt` field in all fact tables for data governance.
   - **Price and Volume Domain**: Here, we maintain the granularity at the daily level for each stock. The `dwd_market_price_di` fact table stores this daily price and volume information, providing a detailed view of market activities.
   - **Sentiment Domain**: This domain differentiates between stocks and funds to provide a focused view of market sentiment. 
     - Fact tables for sentiment are dedicated to stock sentiment (`dwd_stock_sentiment_di`) and fund sentiment (`dwd_fund_sentiment_di`), where each record corresponds to sentiment data for individual stocks and funds, respectively.
