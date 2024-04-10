@@ -37,10 +37,12 @@ The datasets for this project are multi-faceted, encompassing both financial dat
 - **Sentiment Data**: Extracted using Python web scrapers, this includes investor comments from Guba and Snowball, and news content related to stocks and funds. The sentiment is analyzed for positive or negative emotions using Baidu's LLM.
 
 - **Metrics Definition**: Metrics are defined by a combination of time periods (e.g., last 1 day, last 7 days), entities (stocks, funds), and data types (return, comment, emotion). Derived metrics are created based on these definitions, such as 'last 7 days stock positive number comment' indicating the count of positive comments over the past week.
+![metrics](images/metrics.jpg)
 
 ## Data Architecture and Data Pipeline
 
 The stock market dashboard relies on a robust data architecture and pipeline designed for efficient data flow from source to presentation. The architecture is structured into several key layers, each serving a pivotal role in the processing and analysis of data.
+![modeling](images/data_modeling.jpg)
 
 ### Data Sources
 The foundation of our dashboard is built upon data acquired from diverse sources:
@@ -80,6 +82,9 @@ The transformation of raw data into insights is a multi-stage process:
 5. **Presentation**: The ADS feeds into the dashboard, which visualizes the data, offering an interactive and insightful interface for users.
 
 Each stage of this pipeline is designed to ensure data integrity and relevance, culminating in a powerful tool that provides comprehensive market insights.
+
+Following is a detailed diagram that illustrates the multi-tiered data architecture of our stock market dashboard. This diagram provides a visual overview of the various components in our data pipeline, from the source data to the presentation layer.
+![4-Tier Data Architecture](images/4_tier_architecture.jpg)
 
 ## Implementation
 - Code snippets and explanations of key functions
