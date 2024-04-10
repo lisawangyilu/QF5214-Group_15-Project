@@ -88,9 +88,51 @@ Following is a detailed diagram that illustrates the multi-tiered data architect
 ![4-Tier Data Architecture](images/4_tier_architecture.jpg)
 
 ## Implementation
-- Code snippets and explanations of key functions
-- Details on the API integration and web scraping process
-- Description of the sentiment analysis model
+#### Details on the API integration and web scraping process
+
+- **Baidu AI API Usage Instructions**
+
+1. Prepare the Necessary API Information: In the code, fill in your APP_ID, API_KEY, and SECRET_KEY. These are the credentials required when using Baidu's sentiment analysis service, obtainable by registering on Baidu AI Open Platform and creating the relevant application.
+2. Instantiate the AI NLP Client: With the prepared APP_ID, API_KEY, and SECRET_KEY, create an instance of AipNlp.
+3. Read Text Data: The script will read data from a dataframe containing the text to be processed.
+4. Perform Sentiment Analysis on Each Line of Text: For each non-blank line of text in the dataframe, use the sentimentClassify method of the AipNlp instance to call the API and obtain sentiment analysis results.
+
+- **Introduction to Baidu AI Sentiment Analysis Tool**
+
+1. Baidu AI Open Platform's sentiment analysis capability is developed based on their PaddlePaddle deep learning framework. This functionality is part of the Senta project, offering powerful sentiment analysis tools based on pretrained models like ERNIE and RoBERTa, suitable for various sentiment analysis tasks.
+2. Model Principle: Baidu's sentiment analysis models leverage the PaddlePaddle deep learning platform technology. The underlying models—ERNIE and RoBERTa—have been fine-tuned for sentiment analysis to understand and classify emotional nuances in the text. These models are trained on large datasets and can effectively recognize positive, negative, and neutral emotions.
+
+- **Challenges Encountered in Web Scraping**
+
+1. When using the request package to access the Dongfang Fortune website forums, the site returns a 403 Forbidden error, indicating failed access. The error message \['&lt;html&gt;\\r\\n&lt;head&gt;&lt;title&gt;403 Forbidden&lt;/title&gt;&lt;/head&gt;\\r\\n&lt;body&gt;\\r\\n&lt;center&gt;&lt;h1&gt;403 Forbidden&lt;/h1&gt;&lt;/center&gt;\\r\\n&lt;hr&gt;&lt;center&gt;Microsoft-IIS/10.0&lt;/center&gt;\\r\\n&lt;/body&gt;\\r\\n&lt;/html&gt;\\r\\n'\] suggests that the website has identified the Python access as an automated script request, thus denying access to the IP.
+2. Initially, the process of scraping the website source code worked normally with automatic page redirection and scraping. However, the initial scraping results showed garbled data, with homogeneous and mismatched repetitive information. This issue is considered to be the website detecting unusual user access, perceiving the IP access frequency as too fast for human-like behavior, hence employing anti-scraping measures like returning garbled data.
+
+- **Solutions to Problems**
+
+1. For the first issue, resolve it by setting the User-Agent parameter in the request header. By default, requests sent using requests are set with a User-Agent of 'python-requests/version', which can easily be recognized by servers as coming from an automated script, not a regular user's browser. Example code:
+    1. url = '<https://example.com>'
+    2. headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'}
+    3. response = requests.get(url, headers=headers)
+2. For the second issue, consider extending the interval between accesses to reduce the access frequency. Possible solutions include:
+    1. Set cooling time, decrease frequency:
+        1. time.sleep
+        2. Set implicit waits, for example: wait1.until(lambda driver: driver.find_element_by_xpath("//p\[@id='link-report'\]/span")) to ensure the page fully loads before scraping.
+    2. Use proxy IP access from an IP pool.
+
+#### Description of the sentiment analysis model
+
+- The model consists of two parts: the sentiment analysis module and the result integrity judgment module.
+- Sentiment Analysis Module Logic:
+
+1. If the positive probability (positive_prob) is greater than 0.7, it is classified as a positive emotion (return value 1).
+2. If the positive probability is less than 0.3, it is classified as a negative emotion (return value -1).
+3. If the positive probability is between 0.3 and 0.7, it is classified as a neutral emotion (return value 0).
+4. During API calls, the code pauses at intervals (sleeping) to avoid rapid request-induced data loss. If the interval is set to 1 second, there will be no loss; if set to 0.5 seconds, there will be about a 10% loss.
+
+- Result Integrity Judgment Module Logic:
+
+1. This module first determines which results are non-compliant;
+2. It then rechecks non-compliant results to determine if they are due to "connection loss" or the input sample not meeting analysis requirements, among other errors.
 
 ## Execution Instruction
 - Step-by-step guide on how to run the dashboard
