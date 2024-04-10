@@ -49,7 +49,7 @@ The foundation of our dashboard is built upon data acquired from diverse sources
 
 ### ODS
 This layer serves as the staging area for raw data:
-- It contains tables for the initial storage of stock information , stock market data and sentiment data (`ods_comment_ef_stock`, `ods_comment_sb_stock`, `ods_news_ef_stock`, `ods_comment_ef_fund`).
+- It contains tables for the initial storage of stock information , stock market data and sentiment data.
 
 
 ### DWD and DIM
@@ -64,20 +64,22 @@ After the data is collected, it goes through an ETL process and is loaded into o
 
 ### DWS
 This layer facilitates business intelligence and analysis:
-- It includes tables that have been specifically designed based on business requirements, such as `dws_stock_price_performance_1d` for daily stock performance and `dws_stock_sentiment_analysz_1d` for sentiment analysis.
-
+- It includes tables that have been specifically designed based on business requirements. This includes summarizing data on dimensions such as time (e.g., daily aggregates), industry, and sentiment (e.g., overall market sentiment, sentiment by industry).
+- This aggregation approach within the DWS lays the groundwork for insightful analytics, allowing for the synthesis of complex data into understandable and useful business metrics.
 
 ### ADS
 The ADS is where the curated data for final presentation is stored:
-- This includes tables like `ads_stock_ind_return_comment_1d` and `ads_stock_ind_comment_timent_share_1d`. These are constructed to feed customized metrics directly into the dashboard.
+- This includes tables like `ads_stock_ind_return_comment_1d`. These are constructed to feed customized metrics directly into the dashboard.
 
 ### Data Pipeline
-The process through which data is transformed from raw form into actionable insights involves several stages:
-1. **Extraction**: Initially, data is extracted from the Wind API and web sources through our crawlers.
-2. **Transformation**: The raw data is then transformed, where it is cleaned, normalized, and enriched to fit into our dwd.
-3. **Loading**: The transformed data is subsequently loaded into the respective DWD and DIM tables for detailed analysis and context.
-4. **Processing**: Data in DWS undergoes further aggregation and analysis to construct business-centric views.
-5. **Presentation**: Finally, the data is presented through the dashboard, which provides a visual and interactive means for users to explore market insights.
+The transformation of raw data into insights is a multi-stage process:
+1. **Extraction**: We pull data from the Wind API and web via crawlers.
+2. **Transformation**: Raw data undergoes cleaning, normalization, and enrichment within the DWD to fit our analytical schema.
+3. **Loading**: Data is then loaded into DWD for detail storage and DIM for additional context.
+4. **Processing**: In DWS, data is aggregated and analyzed based on business needs to provide a clearer view for data users.
+5. **Presentation**: The ADS feeds into the dashboard, which visualizes the data, offering an interactive and insightful interface for users.
+
+Each stage of this pipeline is designed to ensure data integrity and relevance, culminating in a powerful tool that provides comprehensive market insights.
 
 ## Implementation
 - Code snippets and explanations of key functions
