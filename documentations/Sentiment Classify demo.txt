@@ -1,0 +1,28 @@
+# 对指定股票的所有新闻数据进行情感分析并进行统计
+def analyze(code):
+    APP_ID = 'your app id' # 刚才控制台应用界面的appID 
+    API_KEY = 'your api key' # 控制台应用界面的APIKey 
+    SECRET_KEY = 'your secret key' # 控制台应用界面的SecretKey 
+    positive_nums = 0 # 设定正向情感评论数量
+    nagative_nums = 0 # 设定负向情感评论数量
+    count = 0 # 总评论数量计数器
+    aipNlp = AipNlp(APP_ID, API_KEY, SECRET_KEY) # 调用分析工具
+    lines = open(str(code) + '.txt').readlines() # 打开爬取的新闻评论文本
+    for line in lines: # 说明：每行为一个评论，按行分析情感
+        if not line.isspace():
+            line = line.strip()
+            try:
+                result = aipNlp.sentimentClassify(line) # 使用工具包中的sentimentClassify情感分析工具进行分析
+                positive_prob = result['items'][0]['positive_prob'] # 记录分析出的“是积极情感”的可能性
+                nagative_prob = result['items'][0]['negative_prob'] # 记录分析出的“是消极情感”的可能性
+                count += 1 # 记录分析总数
+                if positive_prob >= nagative_prob: 
+                    positive_nums += 1
+                else:
+                    nagative_nums += 1
+            except:
+                pass
+    avg_positive = positive_nums / count
+    avg_nagative = nagative_nums / count
+    print('股票代码：',code, '消极比例：', avg_nagative, '积极比例：',avg_positive)
+    return {'股票代码':code, '消极比例':avg_nagative, '积极比例':avg_positive}
