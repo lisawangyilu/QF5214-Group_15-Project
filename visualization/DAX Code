@@ -1,0 +1,151 @@
+//Create Tables
+//Routine: Table Review->Table tools->New Table->put following in code boox
+//Create Time_table
+Time_table = 
+ADDCOLUMNS (
+    CALENDAR(DATE(2024, 3, 1), DATE(2024, 3, 31)),
+    "Year", YEAR([Date]),
+    "Month", MONTH([Date]),
+    "Day", DAY([Date]),
+    "Week", QUOTIENT(DAY([Date]),7)+1,
+    "Weekday", WEEKDAY([Date]),
+    "Quarter", QUARTER([Date]),
+    "YYYY-MM", FORMAT([Date], "YYYY-MM"),
+    "YYYYQ", FORMAT([Date], "YYYY") & "Q" & FORMAT([Date], "Q"),
+    "Formatted Date", FORMAT([Date], "YYYY/M/D") // 新增的用于显示的列
+)
+
+//Create Rank Table
+Percentage Range Table = 
+DATATABLE (
+    "ID", INTEGER,
+    "Percentage Range", STRING,
+    {
+        { 1, "<-8%" },
+        { 2, "-8%~-5%" },
+        { 3, "-5%~-3%" },
+        { 4, "-3%~0%" },
+        { 5, "0%~3%" },
+        { 6, "3%~5%" },
+        { 7, "5%~8%" },
+        { 8, ">8%" }
+    }
+)
+
+
+//Create Combine Table of Stock and Fund Cover Frequency
+Comment and Reading Frequency = 
+UNION(
+    SELECTCOLUMNS(
+        'mydatabase dwd_fund_sentiment_di',
+        "Date",'mydatabase dwd_fund_sentiment_di'[Date],
+        "industry", RELATED('mydatabase dwd_fund_type'[Industry]),
+        "Asset", "Fund",
+        "Source", 'mydatabase dwd_fund_sentiment_di'[source],
+        "Type", 'mydatabase dwd_fund_sentiment_di'[data_type],
+        "Comment Count", 'mydatabase dwd_fund_sentiment_di'[comment_counts],
+        "Reading Count", 'mydatabase dwd_fund_sentiment_di'[read_counts]
+    ),
+    SELECTCOLUMNS(
+        'mydatabase dwd_stock_sentiment_di',
+        "Date",'mydatabase dwd_stock_sentiment_di'[Date],
+        "industry", RELATED('mydatabase dwd_stock_inf'[INDUSTRY_GICS]),
+        "Asset", "Stock",
+        "Source", 'mydatabase dwd_stock_sentiment_di'[source],
+        "Type", 'mydatabase dwd_stock_sentiment_di'[data_type],
+        "Comment Count", 'mydatabase dwd_stock_sentiment_di'[comment_counts],
+        "Reading Count", 'mydatabase dwd_stock_sentiment_di'[read_counts]
+    )
+)
+
+//Create Combine Table of Stock and Fund Sentiment
+Market Sentiment = 
+UNION(
+    SELECTCOLUMNS(
+        'mydatabase dwd_fund_sentiment_di',
+        "Date",'mydatabase dwd_fund_sentiment_di'[Date],
+        "industry", RELATED('mydatabase dwd_fund_type'[Industry]),
+        "Asset", "Fund",
+        "Source", 'mydatabase dwd_fund_sentiment_di'[source],
+        "Type", 'mydatabase dwd_fund_sentiment_di'[data_type],
+        "Title",'mydatabase dwd_fund_sentiment_di'[title],
+        "Sentiment", 'mydatabase dwd_fund_sentiment_di'[Sentiment]
+    ),
+    SELECTCOLUMNS(
+        'mydatabase dwd_stock_sentiment_di',
+        "Date",'mydatabase dwd_stock_sentiment_di'[Date],
+        "industry", RELATED('mydatabase dwd_stock_inf'[INDUSTRY_GICS]),
+        "Asset", "Stock",
+        "Source", 'mydatabase dwd_stock_sentiment_di'[source],
+        "Type", 'mydatabase dwd_stock_sentiment_di'[data_type],
+        "Title",'mydatabase dwd_stock_sentiment_di'[title],
+        "Sentiment", 'mydatabase dwd_stock_sentiment_di'[sentiment]
+    ))
+
+//Create Column
+//Routine: Table View->'mydatabase ods_market_price'->column tools->New Column
+//Categorize Price Change Range
+PCT_CHG_Category = 
+SWITCH(
+    TRUE(),
+    AND([PCT_CHG] >= 0, [PCT_CHG] < 3), "0%~3%",
+    AND([PCT_CHG] >= 3, [PCT_CHG] < 5), "3%~5%",
+    AND([PCT_CHG] >= 5, [PCT_CHG] < 8), "5%~8%",
+    [PCT_CHG] >= 8, ">8%",
+    AND([PCT_CHG] < 0, [PCT_CHG] > -3), "-3%~0%",
+    AND([PCT_CHG] <= -3, [PCT_CHG] > -5), "-5%~-3%",
+    AND([PCT_CHG] <= -5, [PCT_CHG] > -8), "-8%~-5%",
+    [PCT_CHG] <= -8, "<-8%",
+    BLANK()
+)
+
+//Routine: Table View->'mydatabase dws_stock_sentiment_analyse_1d'->column tools->New Column
+//Fomatting Date to relate with time table
+Date = date(2024,value(mid([update_time],6,2)),value(right([update_time],2)))
+
+//Routine: Table View->'Comment and Reading Frequency'->column tools->New Column
+//Categorize the source of webscrapts
+Category = SWITCH(
+    TRUE(),
+    [Asset] = "Stock" && CONTAINSSTRING([Source], "雪球") && [Type] = "news", "SnowBall Stock News",
+    [Asset] = "Stock" && CONTAINSSTRING([Source], "雪球") && [Type] = "comment", "SnowBall Stock Comment",
+    [Asset] = "Stock" && NOT(CONTAINSSTRING([Source], "雪球")) && [Type] = "news", "EastFund Stock News",
+    [Asset] = "Stock" && NOT(CONTAINSSTRING([Source], "雪球")) && [Type] = "comment", "EastFund Stock Comment",
+    [Asset] = "Fund" && NOT(CONTAINSSTRING([Source], "雪球")) && [Type] = "news", "EastFund Fund News",
+    [Asset] = "Fund" && NOT(CONTAINSSTRING([Source], "雪球")) && [Type] = "comment", "EastFund Fund Comment",  
+    "Other Category"  // 默认分类
+)
+
+//Routine: Table View->'Market Sentiment'->column tools->New Column
+//Segment the asset and source
+Segment = SWITCH(
+    TRUE(),
+    [Asset] = "Stock" && [Type] = "news", "Stock News",
+    [Asset] = "Stock" && [Type] = "comment", "Stock Comment",
+    [Asset] = "Fund" &&  [Type] = "news", "Fund News",
+    [Asset] = "Fund" &&  [Type] = "comment", "Fund Comment",  
+    "Other Category"  // 默认分类
+)
+
+
+//Create measures
+//Routine: Report Review->Data->'Market Sentiment'
+//Create new measures of sentiment, here's a example of Positive sentiment, for Neutral and Negative Sentiment could follow and change the sentiment criteria
+Total Positive Sentiment = CALCULATE(COUNTROWS('Market Sentiment'),'Market Sentiment'[Sentiment]=1)
+
+Total Positive Sentiment Share = 
+DIVIDE(
+    CALCULATE(COUNTROWS('Market Sentiment'), 'Market Sentiment'[Sentiment] =1),
+    CALCULATE(COUNTROWS('Market Sentiment'), NOT(ISBLANK('Market Sentiment'[Sentiment])),'Market Sentiment'[Sentiment] IN {-1, 0, 1}),
+    0
+)
+
+//Routine: Report Review->Data->'Comment and Reading Frequency'
+//Create new measures of cover count
+Cover Count = COUNTROWS('Comment and Reading Frequency')
+
+Read_per_cover = DIVIDE(SUM('Comment and Reading Frequency'[Reading Count]), [Cover Count])
+
+Comment_per_cover = DIVIDE(SUM('Comment and Reading Frequency'[Comment Count]), [Cover Count])
+
+
