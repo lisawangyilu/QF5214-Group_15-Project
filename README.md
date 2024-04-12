@@ -114,7 +114,7 @@ To collect data from Xueqiu and Eastmoney Guba, we designed sophisticated crawle
 3. **Time Delay and Implicit Waits**:
    - To simulate human-like activity, we introduced random time intervals between requests and employed implicit waits for dynamic content loading.
 
-### Spark and Scheduling Logic Overview
+### Spark and Scheduling Logic
 
 We automated the execution of multiple spider programs through scheduling. The daily-collected data is processed using Spark for MapReduce operations and stored in databases categorized by source. We utilized `spark.py` for data processing and `CrawlerScheduler.py` for task scheduling, ensuring efficient and regular data updates.
 
