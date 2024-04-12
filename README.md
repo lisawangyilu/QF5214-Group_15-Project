@@ -177,4 +177,17 @@ Please be aware that due to network fluctuations, the connection port may occasi
 
 
 ## Collaboration
-- Details about how the team collaborated
+
+Our team's collaboration was orchestrated via GitHub. The project was compartmentalized into distinct segments, each managed by team members with specialized expertise:
+
+- **Data Architecture**: Wei Qi
+- **Wind API Integration**: Wei Qi
+- **Web Crawling**: Zhou Zijian, Xu Jiacheng, Zhong Minghao and Wang Wujie
+- **Data Cleaning and Sentiment Analysis**: Wang Wujie, Zhou Zijian, Xu Jiacheng, Zhong Minghao, Bai Feifan, Wang Yilu and Peng Yuezhi
+- **ETL Process Management**: Peng Yuezhi, Bai Feifan and Wang Yilu
+- **Dashboard Implementation**: Wang Yilu
+- **Report Compilation**: Wei Qi
+- **Presentation Preparation**: Bai Feifan.
+
+Each segment involved rigorous peer reviews and iterative enhancements, supported by GitHub's issue tracking, pull requests, and continuous integration tools to maintain high code quality and project alignment.
+
