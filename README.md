@@ -144,12 +144,38 @@ We extracted comments related to specific funds, applied sentiment analysis usin
 
 Our data aggregation process emphasizes consistency and scalability, requiring field standardization and ongoing evaluation to ensure compatibility as the dataset grows.
 
-## Execution Instruction
-- Step-by-step guide on how to run the dashboard
-
 ## Results
-- Screenshots of the dashboard
-- Discussion on the price data and sentiment analysis results
+
+The analysis of market sentiment data collected from web scraping and the Wind API covers a broad range of indicators, from news, reviews, to stock prices, focusing on the period from March 1st to March 31st, 2024. Below are the key findings from our visualizations:
+
+### Sentiment Analysis in Different Media
+
+- **News vs. Comments Sentiment**: News items tend to show a higher positive sentiment compared to comments. Specifically, stock news had a 71.2% positivity rate, while stock comments and fund comments showed a 54.4% and 50.8% negativity rate, respectively.
+
+### Correlation between Media Coverage and Stock Prices
+
+- **Coverage vs. Stock Prices**: The volume of comments and reviews increased throughout the month, regardless of fluctuations in stock prices. Notably, media coverage was more extensive on weekdays and reduced over weekends, indicating no clear correlation between coverage volume and stock price movements.
+
+### Sentiment and Stock Return Correlation
+
+- **Sentiment and Return**: There appears to be a correlation between market sentiment and stock returns. Positive sentiment increases with higher positive returns and vice versa. For instance, in return intervals exceeding 8%, positive and negative sentiments accounted for 28.79% and 51.65%, respectively. Conversely, in intervals below -8%, these figures were 21.15% and 58.54%.
+
+### Media Engagement by Platform
+
+- **Engagement Rates across Platforms**: EastFund had the highest post volume but the lowest engagement in terms of readings and comments per post. In contrast, SnowBall had fewer posts but significantly higher average readings per post.
+
+### Sectorial Coverage Concentration
+
+- **Industry-Specific Coverage**:
+  - Stock and fund comments showed significant concentration in certain industries. For stocks, Information Technology, Financials, and Industries were the focus, while fund comments concentrated on Energy, Financials, and Industries.
+  - A polarization phenomenon was observed in sectors with declining stock prices—some sectors had very concentrated media coverage while others had sparse coverage.
+
+### Coverage of Hot Concepts
+
+- **Popular Concepts in Coverage**: Both stocks and funds covered several key concepts extensively, including Baijiu, Photovoltaics, New Energy, Semiconductors, and Artificial Intelligence. The coverage shows substantial overlap in the concepts highlighted by both stocks and funds, reflecting a common interest area across different types of investments.
+
+These findings illustrate the diverse dynamics of market sentiment and its interaction with media coverage and industry focus. The data not only enhances our understanding of market behavior but also assists investors in making informed decisions based on underlying sentiment trends.
+
 
 ## Future Work
 
