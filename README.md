@@ -25,7 +25,7 @@ The development of this dashboard used the following tools and data sources:
 
 - **Data Processing and ETL**: Carried out with Python to ensure efficient data extraction, transformation, and loading into the system.
 
-- **Database and Cloud Integration**: Managed via cloud-based SQL databases to facilitate data handling and collaboration.
+- **Database and Cloud Integration**: Managed via Alibaba-cloud-based SQL databases to facilitate data handling and collaboration.
 
 - **Visualization and Dashboard Interface**: Constructed with Power BI for its dynamic data visualization capabilities, enhancing the interactive experience for users.
 
