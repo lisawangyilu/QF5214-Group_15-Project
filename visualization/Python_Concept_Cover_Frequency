@@ -1,0 +1,129 @@
+##生成不重复关键词的维表
+from sqlalchemy import create_engine, text
+import pandas as pd
+
+# 创建数据库连接引擎
+engine = create_engine('mysql+mysqlconnector://root:qf5214@localhost/mydatabase')
+# 建立连接
+connection = engine.connect()
+
+try:
+    # 获取HOTCONCEPT和LATESTCONCEPT的数据
+    concepts_query = text("SELECT HOTCONCEPT, LATESTCONCEPT FROM ods_stock_inf;")
+    concepts_data = connection.execute(concepts_query).fetchall()
+
+    # 提取关键词并去重
+    keywords_set = set()
+    for hotconcept, latestconcept in concepts_data:
+        if hotconcept:
+            keywords_set.update(hotconcept.split(';'))  # 分割HOTCONCEPT列中的关键词
+        if latestconcept:
+            keywords_set.update([latestconcept])  # 假设LATESTCONCEPT列中只有一个关键词
+
+    # 将关键词列表转换为DataFrame
+    keywords_df = pd.DataFrame(list(keywords_set), columns=['Keyword'])
+
+    # 将DataFrame中的数据写入新表
+    keywords_df.to_sql('ods_unique_concepts', con=engine, if_exists='replace', index=False)
+    print("New table 'ods_unique_keywords' with unique keywords has been created.")
+except Exception as e:
+    print("Error occurred while extracting and storing unique keywords:", e)
+finally:
+    # 关闭连接
+    connection.close()
+
+##统计词频
+from sqlalchemy import create_engine, text
+import pandas as pd
+# 创建数据库连接引擎
+engine = create_engine('mysql+mysqlconnector://root:qf5214@localhost/mydatabase')
+# 建立连接
+connection = engine.connect()
+
+try:
+    # 从ods_unique_concepts表中获取所有唯一关键词
+    keywords_query = text("SELECT Keyword FROM ods_unique_concepts;")
+    keywords_data = pd.read_sql(keywords_query, connection)
+    # 从dwd_stock_sentiment_clean_di表中获取所有标题
+    titles_query = text("SELECT title FROM dwd_fund_sentiment_di;")
+    titles_data = pd.read_sql(titles_query, connection)
+    # 统计每个关键词在标题中出现的次数
+    keyword_counts = {keyword: titles_data['title'].str.contains(keyword, regex=False).sum() for keyword in keywords_data['Keyword']}
+    # 将统计结果转换为DataFrame
+    keyword_counts_df = pd.DataFrame(list(keyword_counts.items()), columns=['Keyword', 'Count'])
+    # 将结果存储到新表中
+    keyword_counts_df.to_sql('ads_fund_concepts_count_1m', con=engine, if_exists='replace', index=False)
+    print("New table 'keyword_counts' with keyword frequencies has been created.")
+except Exception as e:
+    print("Error occurred while counting keyword frequencies:", e)
+finally:
+    # 关闭连接
+    connection.close()
+
+##重命名表
+from sqlalchemy import create_engine, text
+# 创建数据库连接引擎
+engine = create_engine('mysql+mysqlconnector://root:qf5214@localhost/mydatabase')
+# 建立连接
+connection = engine.connect()
+
+try:
+    # 使用 text 函数处理 SQL 命令来重命名表
+    rename_table_query = text("RENAME TABLE ads_concepts_count_1m TO ads_stock_concepts_count_1m;")
+    rename_table_query = text("RENAME TABLE ads_concepts_count_1d TO ads_stock_concepts_count_1d;")
+    # 执行重命名表的查询
+    connection.execute(rename_table_query)
+    print("Table 'keyword_counts' has been renamed to 'ads_concepts_count_1m'.")
+except Exception as e:
+    print("Error occurred while renaming the table:", e)
+finally:
+    # 关闭连接
+    connection.close()
+
+
+##按日统计词频并按列呈现
+from sqlalchemy import create_engine, text
+import pandas as pd
+
+# Create database connection engine
+engine = create_engine('mysql+mysqlconnector://root:qf5214@localhost/mydatabase')
+# Establish connection
+connection = engine.connect()
+
+try:
+    # Retrieve all unique keywords from the ods_unique_concepts table
+    keywords_query = text("SELECT Keyword FROM ods_unique_concepts;")
+    keywords_data = pd.read_sql(keywords_query, connection)
+
+    # Retrieve all titles and their update times from dwd_stock_sentiment_clean_di table
+    titles_query = text("""
+    SELECT title, DATE_FORMAT(update_time, '%Y-%m-%d') AS update_date 
+    FROM dwd_fund_sentiment_di
+    WHERE title IS NOT NULL AND update_time IS NOT NULL;
+    """)
+    titles_data = pd.read_sql(titles_query, connection)
+
+    # Extract unique dates for column names
+    unique_dates = sorted(titles_data['update_date'].unique())
+    columns = ['Keyword'] + ['COUNT_' + date.replace('-', '_') for date in unique_dates]
+
+    # Initialize an empty DataFrame for final count results
+    results_df = pd.DataFrame(columns=columns)
+
+    # Iterate over each keyword and count occurrences per day
+    for keyword in keywords_data['Keyword']:
+        # Use na=False to handle NaN values in title
+        mask = titles_data['title'].str.contains(keyword, regex=False, na=False)
+        daily_counts = titles_data[mask].groupby('update_date').size()
+        keyword_counts = [keyword] + [daily_counts.get(date, 0) for date in unique_dates]
+        temp_df = pd.DataFrame([keyword_counts], columns=columns)
+        results_df = pd.concat([results_df, temp_df], ignore_index=True)
+
+    # Save the results to a new table
+    results_df.to_sql('ads_fund_concepts_counts_1d', con=engine, if_exists='replace', index=False)
+    print("New table 'ads_concepts_counts_1d' with daily keyword frequencies has been created.")
+except Exception as e:
+    print(f"Error occurred while creating the new table: {e}")
+finally:
+    # Close connection
+    connection.close()
