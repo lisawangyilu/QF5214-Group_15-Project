@@ -129,7 +129,7 @@ We automated the execution of multiple spider programs through scheduling. The d
 
 The model includes:
 
-- A sentiment analysis module that classifies emotions based on probability scores.
+- A sentiment analysis model classifies text as positive (return 1) if the positivity probability is above 0.7, negative (return -1) if below 0.3, and neutral (return 0) if between 0.3 and 0.7.
 - A result integrity judgment module to verify analysis outcomes and handle non-compliant results.
 
 ### Data Retrieval and Processing
