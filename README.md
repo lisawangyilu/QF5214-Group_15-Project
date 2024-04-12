@@ -88,9 +88,63 @@ Following is a detailed diagram that illustrates the multi-tiered data architect
 ![4-Tier Data Architecture](images/4_tier_architecture.jpg)
 
 ## Implementation
-- Code snippets and explanations of key functions
-- Details on the API integration and web scraping process
-- Description of the sentiment analysis model
+
+This section outlines the technical implementation of our stock market dashboard, focusing on data collection and sentiment analysis.
+
+### Web Crawling Sources
+
+We utilized two primary sources for web scraping:
+
+- **Xueqiu**: A leading Chinese financial platform that provides market data and investor insights.
+  - Source: [Xueqiu](https://xueqiu.com/)
+- **Eastmoney Guba**: A forum where users discuss stocks, mutual funds, and financial news.
+  - Source: [Eastmoney Guba](https://guba.eastmoney.com/)
+
+### Advanced Web Scraping Techniques
+
+To collect data from Xueqiu and Eastmoney Guba, we designed sophisticated crawlers employing Python libraries like `requests`, `json`, `lxml`, `pandas`, `re`, and `pymysql`. Our scraping strategy included the following techniques to overcome anti-scraping measures:
+
+1. **Local Proxy Pool Technique**:
+   - We used a local proxy pool to prevent IP blocking, managed by the ProxyPool library, which ensures a supply of functional proxies.
+   - Library: [ProxyPool](https://github.com/Python3WebSpider/ProxyPool?tab=readme-ov-file)
+
+2. **Random User-Agent Header**:
+   - A variety of user-agent strings are used to mimic genuine user behavior and reduce the risk of detection.
+
+3. **Time Delay and Implicit Waits**:
+   - To simulate human-like activity, we introduced random time intervals between requests and employed implicit waits for dynamic content loading.
+
+### Spark and Scheduling Logic Overview
+
+We automated the execution of multiple spider programs through scheduling. The daily-collected data is processed using Spark for MapReduce operations and stored in databases categorized by source. We utilized `spark.py` for data processing and `CrawlerScheduler.py` for task scheduling, ensuring efficient and regular data updates.
+
+### API Integration and Sentiment Analysis Process
+
+#### Baidu AI API Usage Instructions
+
+- Required Credentials: We used the APP_ID, API_KEY, and SECRET_KEY to authenticate with Baidu's sentiment analysis service.
+- AI NLP Client: With the credentials, we instantiated `AipNlp` to analyze text sentiment.
+
+#### Sentiment Analysis Model Description
+
+The model includes:
+
+- A sentiment analysis module that classifies emotions based on probability scores.
+- A result integrity judgment module to verify analysis outcomes and handle non-compliant results.
+
+### Data Retrieval and Processing
+
+We extracted comments related to specific funds, applied sentiment analysis using Baidu AI Cloud API, and processed the data through various steps:
+
+1. **Preliminary Inspection**: Quick review of the dataset's head and tail for an initial understanding.
+2. **Data Sorting**: Organizing data by the `update_time` and other dimension fields for chronological consistency.
+3. **Timestamp Addition**: Injecting a `input_date_time` field to log the ingestion time into our system.
+
+### Data Aggregation
+
+Our data aggregation process emphasizes consistency and scalability, requiring field standardization and ongoing evaluation to ensure compatibility as the dataset grows.
+
+
 
 ## Execution Instruction
 - Step-by-step guide on how to run the dashboard
