@@ -171,7 +171,10 @@ Our project has successfully delivered a robust and scalable stock market dashbo
 
 ## Appendices
 - [Links to repositories](https://github.com/lisawangyilu/QF5214-Group_15-Project)
-- 4-tier datasets all in Alibaba-cloud-based SQL databases 'mysql+pymysql://user:password@***********:3306/qf5214'
+- 4-tier datasets all in Alibaba-cloud-based SQL databases 'mysql+pymysql://user:password@***********:3306/qf5214'  
+- **Access Note**:
+Please be aware that due to network fluctuations, the connection port may occasionally be unstable. If you experience issues connecting to the database, consider attempting access during a different time of day.
+
 
 ## Collaboration
 - Details about how the team collaborated
