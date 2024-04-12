@@ -132,7 +132,6 @@ Segment = SWITCH(
 //Routine: Report Review->Data->'Market Sentiment'
 //Create new measures of sentiment, here's a example of Positive sentiment, for Neutral and Negative Sentiment could follow and change the sentiment criteria
 Total Positive Sentiment = CALCULATE(COUNTROWS('Market Sentiment'),'Market Sentiment'[Sentiment]=1)
-
 Total Positive Sentiment Share = 
 DIVIDE(
     CALCULATE(COUNTROWS('Market Sentiment'), 'Market Sentiment'[Sentiment] =1),
@@ -143,9 +142,7 @@ DIVIDE(
 //Routine: Report Review->Data->'Comment and Reading Frequency'
 //Create new measures of cover count
 Cover Count = COUNTROWS('Comment and Reading Frequency')
-
 Read_per_cover = DIVIDE(SUM('Comment and Reading Frequency'[Reading Count]), [Cover Count])
-
 Comment_per_cover = DIVIDE(SUM('Comment and Reading Frequency'[Comment Count]), [Cover Count])
 
 
