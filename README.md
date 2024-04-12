@@ -5,7 +5,7 @@
 This report presents the development process and operational details of a stock market dashboard designed to combine quantitative financial data with qualitative sentiment analysis, thereby providing investors with a holistic view of market conditions. The dashboard serves as a tool for investors to make informed decisions by examining both numerical market data and the prevailing public sentiment towards the top stocks in the market.
 
 ## Problem Statement
-After the Chinese stock market's steep decline in February and March, investors face a dilemma: has market sentiment bottomed out, signaling a time to buy the dip? If news headlines are overwhelmingly positive yet stock forum sentiments are bleak, it could signal an undervalued market ripe for investment. However, sifting through forums for individual comments is a time-consuming and inefficient process, and one might miss out on crucial sentiment indicators. Enter our dashboard, a fusion of real-time financial data and sentiment analysis, designed for the modern stock market. It navigates through numerical trends and investor psychology, offering a holistic view that guides investment strategies. This tool is a game-changer for investors aiming to make informed decisions in a fluctuating market.
+After the Chinese stock market's steep decline in February and March, investors face a dilemma: has market sentiment bottomed out, signaling a time to buy the dip? If news headlines are overwhelmingly positive yet stock forum sentiments are bleak, it could signal an undervalued market ripe for investment. However, sifting through forums for individual comments is a time-consuming and inefficient process, and one might miss out on crucial sentiment indicators. Enter our dashboard, a fusion of real-time financial data and sentiment analysis, designed for the modern stock market. It navigates through numerical trends and investor psychology, offering a holistic view that guides investment strategies. This tool is a game-changer for investors aiming to make informed decisions in a fluctuating market!
 
 ## Introduction
 
@@ -17,8 +17,8 @@ The development of this dashboard used the following tools and data sources:
 
 - **Sentiment Data**:
   Gained through Python-based web scraping
-  - **Investor Sentiment**: Gained investor comments from the Guba and Snowball forums.
-  - **Fund Sentiment**: Captures broader market sentiment commentary reflecting macro investor sentiment.
+  - **Investor Sentiment**: Gained investor comments from the Guba and Snowball forums, focusing on the CSI 300 index stocks.
+  - **Fund Sentiment**: Captures broader market sentiment commentary from the top 100 funds in China reflecting macro investor sentiment.
   - **News Sentiment**: Collected from Guba financial news publications to incorporate objective sentiment influences on the market.
 
 - **Sentiment Analysis Model**: Utilizes Baidu's Large Language Model (LLM) API for sentiment judgement, chosen for its accessibility and cost-effectiveness despite slower processing times.
@@ -63,7 +63,7 @@ After the data is collected, it goes through an ETL process and is loaded into o
     - Fact tables for sentiment are dedicated to stock sentiment (`dwd_stock_sentiment_di`) and fund sentiment (`dwd_fund_sentiment_di`), where each record corresponds to sentiment data for individual stocks and funds, respectively.
     - Sentiment cleansing and emotion tagging are critical processes completed in this layer. We standardize and clean the sentiment data from various sources before applying Baidu's LLM for emotion analysis, resulting in sentiment tags that classify data as positive, negative, or neutral. This enrichment allows for sophisticated sentiment-based insights into market trends.
 
-- **DIM**: Includes dimension tables such as `dim_stock_info` and `dim_date_info`, which are used to add context to the facts through attributes like dates, stock indices, and industry sectors.
+- **DIM**: Includes dimension tables such as `dim_stock_info` , `dim_date_info` and `dim_date_info`, which are used to add context to the facts through attributes like dates, stock indices, and industry sectors.
 
 ### DWS
 This layer facilitates business intelligence and analysis:
@@ -144,8 +144,6 @@ We extracted comments related to specific funds, applied sentiment analysis usin
 
 Our data aggregation process emphasizes consistency and scalability, requiring field standardization and ongoing evaluation to ensure compatibility as the dataset grows.
 
-
-
 ## Execution Instruction
 - Step-by-step guide on how to run the dashboard
 
@@ -162,22 +160,18 @@ In considering the future trajectory of our stock market dashboard project, we h
 With additional funding, we can migrate our entire operation to the cloud. This move will not only facilitate scalability but also improve reliability and performance.
 - **Automated Daily Data Updates**: Integrating scheduled tasks on the cloud will enable us to perform daily data refreshes seamlessly, ensuring our dashboard reflects the most up-to-date information.
 - **Optimizing Spark’s Distributed Computing Power**: By running our Spark-based processing in the cloud, we can take full advantage of the cloud’s elasticity and scalability. This means our Spark jobs can dynamically allocate more resources during high demand and scale down during quieter periods, optimizing cost and performance.
-- **Reliability and Maintenance**: Cloud platforms provide robust infrastructure and management services that can reduce the operational burden of maintaining a distributed system, thereby improving reliability and uptime.
-
-### Architectural Adjustments for Real-Time Data Streaming
-
-- **Streaming Architecture**: To elevate our dashboard to offer real-time insights, we need to revise our current architecture to support streaming data. This involves implementing robust data pipelines capable of handling high-velocity data inflow without latency or backlog issues.
 
 ### User Experience Optimization
 
 - **Interactive Features**: Adding more interactive elements, such as customizable charts and user-driven queries, can significantly enhance user engagement and satisfaction.
-- **Mobile Responsiveness**: Ensuring the dashboard is fully optimized for mobile devices will extend our reach and improve accessibility for users on the go.
 
 ## Conclusion
-- Final thoughts on the project outcome
+
+Our project has successfully delivered a robust and scalable stock market dashboard powered by a well-architected data workflow. We’ve navigated anti-scraping challenges, accelerated our data processes with Spark, and brought insights to life through Power BI. These achievements reflect our dedication to creating a dynamic tool for investors. Looking ahead, we're poised to enhance our system's capabilities, with cloud deployment and further optimizations on the horizon, ensuring our dashboard remains a pivotal resource in the evolving world of financial analytics.
 
 ## Appendices
-- Links to repositories, datasets, and additional resources
+- [Links to repositories](https://github.com/lisawangyilu/QF5214-Group_15-Project)
+- 4-tier datasets all in Alibaba-cloud-based SQL databases 'mysql+pymysql://user:password@***********:3306/qf5214'
 
 ## Collaboration
-- Details about how the team collaborated on GitHub
+- Details about how the team collaborated
