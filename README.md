@@ -17,8 +17,8 @@ The development of this dashboard used the following tools and data sources:
 
 - **Sentiment Data**:
   Gained through Python-based web scraping
-  - **Investor Sentiment**: Gained investor comments from the Guba and Snowball forums, focusing on the CSI 300 index stocks.
-  - **Fund Sentiment**: Captures broader market sentiment commentary from the top 100 funds in China from Guba forums, reflecting macro investor sentiment.
+  - **Investor Sentiment**: Gained investor comments from the Guba and Snowball forums.
+  - **Fund Sentiment**: Captures broader market sentiment commentary reflecting macro investor sentiment.
   - **News Sentiment**: Collected from Guba financial news publications to incorporate objective sentiment influences on the market.
 
 - **Sentiment Analysis Model**: Utilizes Baidu's Large Language Model (LLM) API for sentiment judgement, chosen for its accessibility and cost-effectiveness despite slower processing times.
