@@ -154,7 +154,24 @@ Our data aggregation process emphasizes consistency and scalability, requiring f
 - Discussion on the price data and sentiment analysis results
 
 ## Future Work
-- Potential improvements and expansions
+
+In considering the future trajectory of our stock market dashboard project, we have identified several avenues for enhancement and expansion:
+
+### Cloud Infrastructure Migration
+
+With additional funding, we can migrate our entire operation to the cloud. This move will not only facilitate scalability but also improve reliability and performance.
+- **Automated Daily Data Updates**: Integrating scheduled tasks on the cloud will enable us to perform daily data refreshes seamlessly, ensuring our dashboard reflects the most up-to-date information.
+- **Optimizing Spark’s Distributed Computing Power**: By running our Spark-based processing in the cloud, we can take full advantage of the cloud’s elasticity and scalability. This means our Spark jobs can dynamically allocate more resources during high demand and scale down during quieter periods, optimizing cost and performance.
+- **Reliability and Maintenance**: Cloud platforms provide robust infrastructure and management services that can reduce the operational burden of maintaining a distributed system, thereby improving reliability and uptime.
+
+### Architectural Adjustments for Real-Time Data Streaming
+
+- **Streaming Architecture**: To elevate our dashboard to offer real-time insights, we need to revise our current architecture to support streaming data. This involves implementing robust data pipelines capable of handling high-velocity data inflow without latency or backlog issues.
+
+### User Experience Optimization
+
+- **Interactive Features**: Adding more interactive elements, such as customizable charts and user-driven queries, can significantly enhance user engagement and satisfaction.
+- **Mobile Responsiveness**: Ensuring the dashboard is fully optimized for mobile devices will extend our reach and improve accessibility for users on the go.
 
 ## Conclusion
 - Final thoughts on the project outcome
